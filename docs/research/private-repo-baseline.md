@@ -263,3 +263,37 @@ diagnostics it causes.
 | `parent_link=` | 0 |
 | `abstract = True` | 23 |
 | `proxy = True` | 0 |
+
+## Ranked gaps after the stack
+
+Measured with ty built from ruff fork branch `phillip/stubs-04-date-string` and the unreleased
+django-stubs environment (run `stack-stubs`, 5621 diagnostics). Diagnostics were grouped by cause
+with a scratch script that reads the project's model declarations; the grouping is approximate.
+Gaps that produce a diagnostic come first, by count. Gaps that are silent (`Any` or `Unknown`
+with no diagnostic) follow, by census count.
+
+| Rank | Gap | Diagnostics | Census occurrences | Test in `django.md` (branch `phillip/stubs-05-gap-tests`) |
+|---:|---|---:|---:|---|
+| 1 | Reverse accessors (`related_name`, `<model>_set`, `%(class)s` names, one-to-one) | 844 | 456 (`related_name=`) | "Foreign key IDs" (existing TODO), "Reverse accessors" |
+| 2 | User model: `get_user_model()` and `request.user` | 256 | 69 and 523 | "User model" |
+| 3 | `id` on a value annotated with an abstract model | 46 | 23 (`abstract = True`) | "Primary key of an abstract model's subclasses" |
+| 4 | A `Choices` class passed as `choices` | 29 | 147 (`TextChoices`/`IntegerChoices`) | "Choices classes" |
+| 5 | Custom `QuerySet` methods through `as_manager()` and `from_queryset()` | 13 | 6 | "Custom `QuerySet` methods on managers" |
+| 6 | `values()` and `values_list()` row types | silent | 1047 | "`values()` and `values_list()`" |
+| 7 | String references, including `"self"` (value and `<field>_id`) | silent | 258 | "String references" |
+| 8 | Attributes added by `annotate()` | not counted separately | 96 | "Annotations" |
+
+Notes on the counts:
+
+- Rank 1 counts `missing-attribute` diagnostics whose attribute name matches a reverse accessor
+  that a relation in the project declares for that model.
+- Rank 2 counts every diagnostic whose message names `AbstractBaseUser` or `AnonymousUser`.
+- Rank 4 is 1 `invalid-argument-type` plus 28 `no-matching-overload` and `invalid-assignment`
+  diagnostics on fields that also carry a field annotation. The single-argument case in the test
+  is the minimal form.
+- Not ranked, because they are below the top eight: `ManyToManyField` (59 occurrences; the related
+  manager is typed, `through` is `type[Any]`) and `through=` (13).
+- Not Django gaps, but large: 152 diagnostics come from a third-party package's model attribute
+  that has no stubs; 271 `missing-attribute` and `invalid-type-form` diagnostics come from model
+  classes that a project decorator turns into `type[Model]`; 32 are `id` on one model for which no
+  cause was found.
