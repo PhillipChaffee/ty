@@ -33,7 +33,7 @@ diagnostic text from it appears here. Raw output stays in the session scratchpad
 - Reference run of the project's own type checker: not possible. It imports the project's settings
   module, which needs the packages that were left out. Skipped.
 
-## Diagnostics per rule, ty `main`
+## Diagnostics per rule, ty `main`, without the private packages
 
 ### `main-types`
 
@@ -183,7 +183,7 @@ diagnostic text from it appears here. Raw output stays in the session scratchpad
 
 `import-not-found` for packages left out of the environment: 170
 
-## Unreleased django-stubs against django-types, ty `main`
+## Unreleased django-stubs against django-types, ty `main`, without the private packages
 
 ### `main-stubs` against `main-types`
 
@@ -264,10 +264,179 @@ diagnostics it causes.
 | `abstract = True` | 23 |
 | `proxy = True` | 0 |
 
+## With the private packages
+
+The ten packages from private sources turned out to be installable with the credential this
+environment already has. All three kinds of source worked: two package registries on the project's
+git host, git dependencies on the same host, and one public registry outside PyPI. A second set of
+environments, `types-full`, `stubs612-full` and `stubs-full`, adds them through the optional
+fifth argument of `harness/make_env.sh`. No package is left out of these environments, and no
+`import-not-found` diagnostic for a private package remains.
+
+The tables above are kept as the run without private packages. Comparisons always use the same
+environment on both sides.
+
+### `main-types-full`
+
+| Rule | Count |
+|---|---:|
+| `missing-attribute` | 2417 |
+| `invalid-argument-type` | 1336 |
+| `missing-union-attribute` | 559 |
+| `not-subscriptable` | 337 |
+| `incompatible-method-override` | 319 |
+| `invalid-assignment` | 157 |
+| `invalid-type-form` | 144 |
+| `invalid-explicit-return` | 127 |
+| `unused-type-ignore-comment` | 77 |
+| `unsupported-operator` | 45 |
+| `no-matching-overload` | 38 |
+| `incompatible-attribute-override` | 32 |
+| `not-iterable` | 24 |
+| `deprecated` | 18 |
+| `lost-keyword-for-regular-parameter` | 14 |
+| `unknown-argument` | 13 |
+| `too-many-positional-arguments` | 11 |
+| `missing-module-member` | 7 |
+| `abstract-class-instantiation` | 6 |
+| `missing-typed-dict-key` | 6 |
+| `missing-argument` | 5 |
+| `not-callable` | 5 |
+| `incompatible-mutable-override` | 4 |
+| `unsupported-base` | 4 |
+| `import-not-found` | 2 |
+| `invalid-generator-return-type` | 2 |
+| `invalid-implicit-return` | 2 |
+| `invalid-parameter-default` | 2 |
+| `parameter-already-assigned` | 1 |
+| `redundant-cast` | 1 |
+| **Total** | 5715 |
+
+| `missing-attribute` name | Count |
+|---|---:|
+| `*_set` | 52 |
+| `*_id` | 51 |
+| `*_ptr` | 0 |
+| `get_*_display` | 0 |
+| `objects` | 15 |
+| `other` | 2299 |
+| **Total** | 2417 |
+
+`import-not-found` for packages left out of the environment: 0
+
+### `main-stubs612-full`
+
+| Rule | Count |
+|---|---:|
+| `missing-attribute` | 2350 |
+| `invalid-argument-type` | 1222 |
+| `missing-union-attribute` | 438 |
+| `not-subscriptable` | 209 |
+| `incompatible-method-override` | 200 |
+| `invalid-explicit-return` | 167 |
+| `invalid-type-form` | 144 |
+| `invalid-assignment` | 116 |
+| `unused-type-ignore-comment` | 77 |
+| `invalid-attribute-access` | 39 |
+| `no-matching-overload` | 35 |
+| `deprecated` | 28 |
+| `lost-keyword-for-regular-parameter` | 27 |
+| `unsupported-operator` | 27 |
+| `incompatible-attribute-override` | 26 |
+| `not-iterable` | 24 |
+| `unknown-argument` | 14 |
+| `not-callable` | 7 |
+| `too-many-positional-arguments` | 7 |
+| `abstract-class-instantiation` | 6 |
+| `missing-typed-dict-key` | 6 |
+| `missing-module-member` | 5 |
+| `unsupported-base` | 4 |
+| `missing-argument` | 3 |
+| `import-not-found` | 2 |
+| `invalid-generator-return-type` | 2 |
+| `invalid-implicit-return` | 2 |
+| `invalid-parameter-default` | 2 |
+| `incompatible-mutable-override` | 1 |
+| `parameter-already-assigned` | 1 |
+| `possibly-missing-submodule` | 1 |
+| `redundant-cast` | 1 |
+| **Total** | 5193 |
+
+| `missing-attribute` name | Count |
+|---|---:|
+| `*_set` | 52 |
+| `*_id` | 49 |
+| `*_ptr` | 0 |
+| `get_*_display` | 0 |
+| `objects` | 15 |
+| `other` | 2234 |
+| **Total** | 2350 |
+
+`import-not-found` for packages left out of the environment: 0
+
+### `main-stubs-full`
+
+| Rule | Count |
+|---|---:|
+| `missing-attribute` | 2352 |
+| `invalid-argument-type` | 1226 |
+| `missing-union-attribute` | 439 |
+| `not-subscriptable` | 209 |
+| `incompatible-method-override` | 200 |
+| `invalid-assignment` | 179 |
+| `invalid-explicit-return` | 169 |
+| `invalid-type-form` | 144 |
+| `unused-type-ignore-comment` | 77 |
+| `no-matching-overload` | 43 |
+| `unsupported-operator` | 40 |
+| `deprecated` | 28 |
+| `lost-keyword-for-regular-parameter` | 27 |
+| `incompatible-attribute-override` | 26 |
+| `not-iterable` | 25 |
+| `unknown-argument` | 14 |
+| `too-many-positional-arguments` | 7 |
+| `abstract-class-instantiation` | 6 |
+| `missing-typed-dict-key` | 6 |
+| `missing-module-member` | 5 |
+| `not-callable` | 5 |
+| `unsupported-base` | 4 |
+| `invalid-attribute-access` | 3 |
+| `missing-argument` | 3 |
+| `import-not-found` | 2 |
+| `incompatible-mutable-override` | 2 |
+| `invalid-generator-return-type` | 2 |
+| `invalid-implicit-return` | 2 |
+| `invalid-parameter-default` | 2 |
+| `parameter-already-assigned` | 1 |
+| `possibly-missing-submodule` | 1 |
+| `redundant-cast` | 1 |
+| **Total** | 5250 |
+
+| `missing-attribute` name | Count |
+|---|---:|
+| `*_set` | 52 |
+| `*_id` | 49 |
+| `*_ptr` | 0 |
+| `get_*_display` | 0 |
+| `objects` | 15 |
+| `other` | 2236 |
+| **Total** | 2352 |
+
+`import-not-found` for packages left out of the environment: 0
+
+### Reference run of the project's own type checker
+
+With the private packages present, the project's type checker starts and loads the settings
+module. It then stops before checking: 58 errors in 23 files, of which 56 are `import-untyped`
+and 1 is `syntax` (an invalid `type: ignore` comment), with the note that errors prevented further
+checking. The remaining error has no code. There is therefore still no per-code reference count.
+The project's configuration was not changed to get past this.
+
 ## Ranked gaps after the stack
 
 Measured with ty built from ruff fork branch `phillip/stubs-04-date-string` and the unreleased
-django-stubs environment (run `stack-stubs`, 5621 diagnostics). Diagnostics were grouped by cause
+django-stubs environment (run `stack-stubs`, 5621 diagnostics). The five diagnostic counts are the
+same with the private packages installed (run `stack-stubs-full`, 5632 diagnostics). Diagnostics were grouped by cause
 with a scratch script that reads the project's model declarations; the grouping is approximate.
 Gaps that produce a diagnostic come first, by count. Gaps that are silent (`Any` or `Unknown`
 with no diagnostic) follow, by census count.

@@ -62,7 +62,8 @@ failing.
    research, which was counted on the parent link branch.
 5. **Tooling.** `uv` on `PATH` was 0.11; 0.13.9 was installed into the scratchpad. The rule for an
    unresolved import is `import-not-found`. `run_ty.sh` passes the source root as an extra search
-   path. The private repository's own type checker could not run without its private packages.
+   path. The plan assumed the private packages could not be installed; they can, and the runs were
+   repeated with them.
 6. **Task 5 placement.** The MRO test lives in `django.rs` as `is_foreign_key`, next to `is_model`,
    not inline in `constructor.rs`.
 
@@ -110,6 +111,26 @@ a `None` check is reported (243 `missing-union-attribute`), as are wrong argumen
 `invalid-argument-type`) and attributes that do not exist on the related model (41
 `missing-attribute`). It does mean that the switch plus the foreign-key work produces more
 diagnostics for this project than either django-types or today's `main` on django-stubs.
+
+### With the private packages installed
+
+Added after the first report: the ten private packages install with the environment's existing
+credential, so every run was repeated on fuller environments (see `private-repo-baseline.md`).
+The conclusions do not change.
+
+| Environment | `main` | `stack` | Added | Removed |
+|---|---:|---:|---:|---:|
+| `types-full` (django-types 0.24.0) | 5715 | 5715 | 0 | 0 |
+| `stubs612-full` (django-stubs 6.1.2) | 5193 | 5575 | 450 | 68 |
+| `stubs-full` (unreleased django-stubs) | 5250 | 5632 | 401 | 19 |
+
+- `main-types-full` and `stack-types-full` are byte-identical.
+- Under both django-stubs environments, every diagnostic that differs names a model class of the
+  project, Django's `Model`, or a `None` union.
+- The project's own type checker now starts, but stops on 58 errors in the project before
+  checking, so there is still no reference count.
+
+The tables below are from the first run, without the private packages.
 
 ### `stack-types` against `main-types`
 
@@ -276,10 +297,12 @@ subclasses". `is_foreign_key` follows `is_model`.
 
 ## Not done
 
-- The project's own type checker was not run as a reference.
+- The project's own type checker gave no reference count: it stops on errors in the project before
+  checking.
 - The full workspace test suite, `prek run --all-files` and `cargo dev generate-all` were not run;
   the plan's checks cover the `ty_python_semantic` crate and the changed files.
-- The diagnostics that differ under `stubs612` were not split into added and removed.
+- The diagnostics that differ under `stubs612` were split into added and removed only for the run
+  with private packages.
 - No ecosystem, memory or performance run.
 - 32 `missing-attribute` diagnostics for `id` on one model of the private repository have no
   explanation yet.
