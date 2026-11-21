@@ -63,6 +63,12 @@ Crates under `crates/` in ruff: `ty`, `ty_combine`, `ty_completion_bench`, `ty_c
 | Known limitations | Heading for the short list of gaps | docs |
 | "does not yet", "is not fully reflected", "is incomplete" | How limitations are phrased | docs |
 
+Each library page keeps to its own bullet openers. The Django page uses only "Type inference and
+assignment checking for", "Recognition of" and "Inference of ... for". "Support for" and
+"Rejection of" appear on the Pydantic page only. A section on the Django page opens with what
+Django does, then what ty does: "Django adds methods based on a field's options. ty infers their
+return types:".
+
 Verbs the feature lists use: "Type inference and assignment checking for", "Recognition of",
 "Inference of types for", "Inference of return types for", "Support for", "Rejection of".
 Changelog verbs: "Infer", "Recognize", "Support", "Avoid synthesizing", "suppress", "Respect",
@@ -117,6 +123,10 @@ Changelog verbs: "Infer", "Recognize", "Support", "Avoid synthesizing", "suppres
 | inherited `Meta` configuration | A `Meta` that subclasses a parent's `Meta` | `django.md` section title |
 | field name, field renaming | The `name` parameter; "Field names" section | docs, `django.md` |
 | model constructor | `Model(...)`; "precise model constructor signatures" | docs, ty#1018 |
+| follows | The verb for "takes its type from": "whose type follows the model's primary key", "The ID type follows the related primary key" | docs, `django.md` |
+| parent, parent model | The model a subclass inherits from ("inherits the primary key behavior of its parent") | `django.md` |
+| abstract base | An abstract model used as a base class | `django.md` |
+| override, inherit | What a child's `Meta` does to a parent's `Meta` | changelog, `django.md` |
 | own | Prefix meaning "declared in this class body, not inherited": `own_model_fields`, `own_primary_key`, `own_meta` | `django.rs` |
 | synthesized | Added by ty, not present in the stubs: "synthesized attributes and methods" | `django.rs`, changelog |
 
@@ -358,6 +368,15 @@ error."
 | inherited fields helper named `all_*` | `own_*` plus an MRO walk | Existing structure in `django.rs` |
 | `unresolved-attribute`, `invalid-override` | `missing-attribute`, `incompatible-attribute-override` | Current rule names |
 | Ty, TY | ty | Always lowercase |
+| "`pk` has the type of", "takes its type from" | "the type of `pk` follows ..." | The docs verb is "follows" |
+| relationship field | foreign key or one-to-one field (docs), relation field (Rust) | "relationship field" is used nowhere |
+| base model | parent model, abstract base | Tests say "parent"; `BaseModel` is a Pydantic class |
+| concrete models that inherit from it | concrete subclasses | Existing term in tests |
+| redefine `Meta`, subclass `Meta` | override or inherit from a parent's `Meta`; `Meta` configuration | Changelog and test wording |
+| "Support for ..." on the Django page | "Recognition of ...", "Inference of ..." | The Django page's own openers |
+
+The last six rows come from our first docs change (backlog item 5), where the first draft used the
+left-hand wording and had to be corrected.
 
 ## 10. Gaps in this glossary
 

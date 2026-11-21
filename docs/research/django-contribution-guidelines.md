@@ -25,6 +25,24 @@ own practice based on what has merged and what has been closed.
    not compete with them.
 5. A person writes every word that maintainers read. See section 2.
 6. If a fix can live in the stubs (django-stubs), it goes there, not into ty.
+7. Use the terms in `ty-glossary.md`. See section 1a.
+
+## 1a. Wording and names
+
+`ty-glossary.md` lists the terms and identifiers ty already uses. It applies to everything we
+produce: Rust names, comments, mdtest prose and section titles, docs text, and the facts handed to
+a person for a pull request.
+
+- Must check the glossary before naming anything or writing prose, and use the existing term.
+- Must check section 9 of the glossary ("Words to avoid") before finishing a change.
+- Must match the register of the file being edited: a docs page, the tests and the Rust source
+  each have their own words for the same idea, and the glossary's "Where" column says which.
+- If no term exists, look in the surrounding upstream file and in Django's own documentation
+  before coining one. A new term must be reported at the end of the task so a person can decide.
+- Must add any term found upstream that the glossary lacks, and any wording a review corrects,
+  to the glossary in the research branch. Never in a branch meant for upstream.
+- The coding agent must state in its end-of-task report that it checked the changed text against
+  the glossary, and list any term it could not match.
 
 ## 2. Who does what: people and the coding agent
 
@@ -281,6 +299,8 @@ uv run --only-group=docs mkdocs build --strict -f mkdocs.yml
 
 Recheck these before each new piece of work, and update the table in section 3:
 
+- Is `ty-glossary.md` still current? It was read from ruff `9ca2a80e78` and ty `8eef928`. Rule
+  names and the names in `django.rs` change; re-read both before relying on it.
 - Has the django-stubs switch (#29731) merged, and which stub package do the tests pin?
 - Has anything changed on ty#1018 (new plans, a request to wait, a parity list)?
 - Has the maintainer said whether outside Django pull requests are welcome? As of 2026-11-20 this
