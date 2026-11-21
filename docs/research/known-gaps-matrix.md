@@ -146,4 +146,5 @@ class as `choices` (1), date string (1).
 - P28 and P29 (parent links) are fixed on `phillip/django-parent-link`, which is not part of the
   stack.
 - P07 (`pk = None`) is astral-sh/ty#4932, with the maintainer's draft astral-sh/ruff#30068.
-- The probe file and the raw outputs were in the session scratchpad and are not kept.
+- The probe file is `harness/known_gaps_probe.py`. The raw outputs were in the session scratchpad
+  and are not kept.
