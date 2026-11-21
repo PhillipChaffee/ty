@@ -123,12 +123,36 @@ Changelog verbs: "Infer", "Recognize", "Support", "Avoid synthesizing", "suppres
 | inherited `Meta` configuration | A `Meta` that subclasses a parent's `Meta` | `django.md` section title |
 | field name, field renaming | The `name` parameter; "Field names" section | docs, `django.md` |
 | model constructor | `Model(...)`; "precise model constructor signatures" | docs, ty#1018 |
+| database table | "without creating its own database table": how tests explain abstract models | `django.md` |
+| setting | One value in a `Meta` class: "`abstract` setting", "Annotated abstract setting". Not "option" or "flag" | `django.md` |
+| subclass, child | Both used for a model that inherits from another; "child" pairs with "parent" | `django.md` |
+| behavior | "inherits the primary key behavior of its parent". American spelling throughout | `django.md`, docs |
 | follows | The verb for "takes its type from": "whose type follows the model's primary key", "The ID type follows the related primary key" | docs, `django.md` |
 | parent, parent model | The model a subclass inherits from ("inherits the primary key behavior of its parent") | `django.md` |
 | abstract base | An abstract model used as a base class | `django.md` |
 | override, inherit | What a child's `Meta` does to a parent's `Meta` | changelog, `django.md` |
 | own | Prefix meaning "declared in this class body, not inherited": `own_model_fields`, `own_primary_key`, `own_meta` | `django.rs` |
 | synthesized | Added by ty, not present in the stubs: "synthesized attributes and methods" | `django.rs`, changelog |
+
+### Terms taken from Django's documentation
+
+ty had no words for multi-table inheritance. These come from Django's own documentation and are
+used in our parent link change (ruff fork branch `phillip/django-parent-link`). They are not yet
+upstream in ty, so treat them as proposed.
+
+| Term | Meaning |
+|---|---|
+| multi-table inheritance | A model inheriting from a concrete model, each with its own database table |
+| parent link | The `OneToOneField` from child to parent; Django's keyword is `parent_link=True` |
+| automatic parent link | The `<parent>_ptr` field Django adds, by analogy with "automatic primary key" |
+| explicit parent link | A field the user declares with `parent_link=True` |
+| proxy model | A model with `Meta.proxy = True`; it uses its parent's database table |
+| concrete model | The model whose table stores a model's rows (Django: `_meta.concrete_model`) |
+| `<parent>` | Placeholder for the lowercase parent model name, modelled on `<field>` |
+
+Rust names added on that branch, following the existing patterns: `parent_link_member`,
+`concrete_model`, `is_abstract`, `meta_setting`, and the metadata fields `parent_link` and
+`is_proxy`.
 
 Placeholders are written `<field>`, as in `<field>_id`, `get_<field>_display()`,
 `get_next_by_<field>()`. Docs and tests never write `FOO` or `{field}`.
@@ -164,6 +188,11 @@ Naming pattern: `<thing>_member` returns an attribute type, `<thing>_method` ret
 Known classes: `KnownClass::DjangoModel`, `DjangoField`, `DjangoDateField`, `DjangoForeignKey`.
 Known modules: `KnownModule::DjangoDbModelsBase`, `DjangoDbModelsFields`,
 `DjangoDbModelsFieldsRelated`.
+
+How the hook is reached: attribute lookup walks the MRO and asks each class for its own member
+(`own_class_member`). When the class body has none, `own_generated_member` calls
+`django::synthesized_member` for that class. A synthesized member therefore only needs to
+describe what the class itself adds; subclasses inherit it through the normal lookup.
 
 Call sites outside the module: `django::synthesized_member` in `types/class/static_literal.rs`
 and `django::is_model` in `types/overrides/attributes.rs` (the `Meta` override exemption).
@@ -307,6 +336,9 @@ type variables and protocols ty creates; "synthesized" is the word for members a
 | use-def map, `use_def_map` | Which bindings reach which use; `end_of_scope_symbol_bindings` |
 | `ProgramEnvironment`, `env` | Passed next to `db` in current main |
 | `ignore_possibly_undefined` | Take the type if the place is defined at all |
+| `explicit_bases` | The base classes written in the `class` statement, as opposed to the full MRO |
+| `to_class_type` | Turn a class-literal type into a `ClassType` |
+| `own_class_member`, `own_generated_member` | Per-class lookup steps; the Django hook runs once for each class in the MRO |
 
 ### Salsa and performance
 
@@ -368,6 +400,8 @@ error."
 | inherited fields helper named `all_*` | `own_*` plus an MRO walk | Existing structure in `django.rs` |
 | `unresolved-attribute`, `invalid-override` | `missing-attribute`, `incompatible-attribute-override` | Current rule names |
 | Ty, TY | ty | Always lowercase |
+| `Meta` option, `Meta` flag | `Meta` setting, `Meta` configuration | Test wording |
+| "has no table" | "has no database table", "without creating its own database table" | Test wording |
 | "`pk` has the type of", "takes its type from" | "the type of `pk` follows ..." | The docs verb is "follows" |
 | relationship field | foreign key or one-to-one field (docs), relation field (Rust) | "relationship field" is used nowhere |
 | base model | parent model, abstract base | Tests say "parent"; `BaseModel` is a Pydantic class |
