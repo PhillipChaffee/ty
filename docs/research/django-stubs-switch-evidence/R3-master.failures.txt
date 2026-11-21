@@ -1,0 +1,57 @@
+55 unmatched assertion: error: [invalid-assignment]
+234 unmatched assertion: revealed: Book
+234 unexpected error: 17 [revealed-type] "Revealed type: `Any`"
+235 unmatched assertion: revealed: UUID
+235 unexpected error: 17 [revealed-type] "Revealed type: `Any`"
+236 unmatched assertion: revealed: UUID
+236 unexpected error: 17 [revealed-type] "Revealed type: `Any`"
+239 unmatched assertion: revealed: Book
+239 unexpected error: 17 [revealed-type] "Revealed type: `Any`"
+240 unmatched assertion: revealed: UUID
+240 unexpected error: 17 [revealed-type] "Revealed type: `Any`"
+241 unmatched assertion: revealed: UUID
+241 unexpected error: 17 [revealed-type] "Revealed type: `Any`"
+259 unmatched assertion: revealed: Book
+259 unexpected error: 17 [revealed-type] "Revealed type: `Any`"
+260 unmatched assertion: revealed: str
+260 unexpected error: 17 [revealed-type] "Revealed type: `Unknown`"
+260 unexpected error: 17 [missing-attribute] "Object of type `EbookByIsbn` has no attribute `book_id`"
+261 unmatched assertion: revealed: str
+261 unexpected error: 17 [revealed-type] "Revealed type: `Any`"
+263 unmatched assertion: revealed: Book
+263 unexpected error: 17 [revealed-type] "Revealed type: `Any`"
+264 unmatched assertion: revealed: str
+264 unexpected error: 17 [revealed-type] "Revealed type: `Unknown`"
+264 unexpected error: 17 [missing-attribute] "Object of type `ReviewByIsbn` has no attribute `book_id`"
+265 unmatched assertion: revealed: str
+265 unexpected error: 17 [revealed-type] "Revealed type: `Any`"
+286 unmatched assertion: revealed: Author
+286 unexpected error: 17 [revealed-type] "Revealed type: `Any`"
+287 unmatched assertion: revealed: int
+287 unexpected error: 17 [revealed-type] "Revealed type: `Any`"
+289 unmatched assertion: revealed: Author | None
+289 unexpected error: 17 [revealed-type] "Revealed type: `Any`"
+290 unmatched assertion: revealed: int | None
+290 unexpected error: 17 [revealed-type] "Revealed type: `Any | None`"
+293 unmatched assertion: error: [invalid-assignment]
+334 unmatched assertion: revealed: Book
+334 unexpected error: 17 [revealed-type] "Revealed type: `Any`"
+336 unmatched assertion: revealed: str
+336 unexpected error: 17 [revealed-type] "Revealed type: `Any`"
+355 unmatched assertion: revealed: Book
+355 unexpected error: 17 [revealed-type] "Revealed type: `Any`"
+357 unmatched assertion: revealed: str
+357 unexpected error: 17 [revealed-type] "Revealed type: `Unknown`"
+357 unexpected error: 17 [missing-attribute] "Object of type `Review` has no attribute `book_id`"
+413 unmatched assertion: error: [missing-attribute]
+414 unmatched assertion: error: [missing-attribute]
+780 unmatched assertion: revealed: Book
+780 unexpected error: 17 [revealed-type] "Revealed type: `Any`"
+781 unmatched assertion: revealed: int
+781 unexpected error: 17 [revealed-type] "Revealed type: `Any`"
+794 unmatched assertion: revealed: Book
+794 unexpected error: 17 [revealed-type] "Revealed type: `Any`"
+805 unmatched assertion: revealed: PdfEbook
+805 unexpected error: 17 [revealed-type] "Revealed type: `Any`"
+820 unmatched assertion: revealed: Book
+820 unexpected error: 17 [revealed-type] "Revealed type: `Any`"
